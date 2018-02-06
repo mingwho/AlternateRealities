@@ -26,6 +26,8 @@ public class generator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+
 		if (counter < 2.1 / degreeChange) {
 			if (timer >= period) {
 				if (h == layers || h == 0) {
