@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Pipe : MonoBehaviour {
-	public float curveRadius, pipeRadius;
-	public int curveSegmentCount, pipeSegmentCount;
+
+    public float pipeRadius;
+    public int pipeSegmentCount;
+
+    private float curveRadius;
+    private int curveSegmentCount;
+
+	public float minCurveRadius, maxCurveRadius;
+	public int minCurveSegmentCount, maxCurveSegmentCount;
 
 	private Mesh mesh;
 	private Vector3[] vertices;
 	private int[] triangles;
-    //public float ringDistance = 1f;
+    public float ringDistance = 1f;
     private float curveAngle;
 
 	// float u defines the angle along the curve
@@ -42,18 +49,33 @@ public class Pipe : MonoBehaviour {
 	private void Awake(){
 		GetComponent<MeshFilter> ().mesh = mesh = new Mesh ();
 		mesh.name = "Pipe";
-		SetVertices ();
-		SetTriangles ();
-        mesh.RecalculateNormals();
+
+  //      curveRadius = Random.Range(minCurveRadius, maxCurveRadius);
+  //      curveSegmentCount = Random.Range(minCurveSegmentCount, maxCurveSegmentCount + 1);
+
+		//SetVertices ();
+		//SetTriangles ();
+        //mesh.RecalculateNormals();
 	}
+
+    public void Generate()
+    {
+        curveRadius = Random.Range(minCurveRadius, maxCurveRadius);
+        curveSegmentCount =
+            Random.Range(minCurveSegmentCount, maxCurveSegmentCount + 1);
+        mesh.Clear();
+        SetVertices();
+        SetTriangles();
+        mesh.RecalculateNormals();
+    }
 
 	private void SetVertices(){
 		vertices = new Vector3[pipeSegmentCount * curveSegmentCount * 4];
-        //float uStep = ringDistance / curveRadius;
+        float uStep = ringDistance / curveRadius;
 
-        //curveAngle = uStep * curveSegmentCount * (360f / 2f * Mathf.PI);
+        curveAngle = uStep * curveSegmentCount * (360f / (2f * Mathf.PI));
 
-		float uStep = (2f * Mathf.PI) / curveSegmentCount;
+		//float uStep = (2f * Mathf.PI) / curveSegmentCount;
 		CreateFirstQuadRing (uStep);
         int iDelta = pipeSegmentCount * 4;
         for (int u = 2, i = iDelta; u <= curveSegmentCount; u++,i+=iDelta){
@@ -67,7 +89,7 @@ public class Pipe : MonoBehaviour {
         float vStep = (2f * Mathf.PI) / pipeSegmentCount;
         Vector3 vertexA = GetPointOnTorus(0f, 0f);
         Vector3 vertexB = GetPointOnTorus(u, 0f);
-        for (int v = 1, i = 0; v < pipeSegmentCount; v++, i += 4){
+        for (int v = 1, i = 0; v <= pipeSegmentCount; v++, i += 4){
             vertices[i] = vertexA;
             vertices[i + 1] = vertexA = GetPointOnTorus(0f, v * vStep);
             vertices[i + 2] = vertexB;
@@ -92,24 +114,56 @@ public class Pipe : MonoBehaviour {
         triangles = new int[pipeSegmentCount * curveSegmentCount * 6];
         for (int t = 0, i = 0; t < triangles.Length; t+=6, i+=4){
             triangles[t] = i;
-            triangles[t + 1] = triangles[t + 4] = i + 1;
-            triangles[t + 2] = triangles[t + 3] = i + 2;
+            triangles[t + 1] = triangles[t + 4] = i + 2;
+            triangles[t + 2] = triangles[t + 3] = i + 1;
             triangles[t + 5] = i + 3;
         }
         mesh.triangles = triangles;
 	}
 
-    //public void AlignWith(Pipe pipe)
-    //{
-    //    float relativeRotation = Random.Range(0f, 360f);
+    private float relativeRotation;
 
-    //    transform.SetParent(pipe.transform,false);
+    public float RelativeRotation
+    {
+        get
+        {
+            return relativeRotation;
+        }
+    }
 
-    //    transform.localPosition = Vector3.zero;
-    //    transform.localRotation = Quaternion.Euler(0f, 0f, -pipe.curveAngle);
-    //    transform.Translate(0f,pipe.curveRadius,0f);
-    //    transform.Rotate(relativeRotation,0f,0f);
-    //    transform.Translate(0f,-curveRadius,0f);
-    //    transform.SetParent(pipe.transform.parent);
-    //}
+    public void AlignWith(Pipe pipe)
+    {
+        // perform random relative rotation with restriction so that pipe segments fit
+        relativeRotation = Random.Range(0, curveSegmentCount) * 360f / pipeSegmentCount;
+
+        transform.SetParent(pipe.transform,false);
+
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.Euler(0f, 0f, -pipe.curveAngle);
+        transform.Translate(0f,pipe.curveRadius,0f);
+        transform.Rotate(relativeRotation,0f,0f);
+        transform.Translate(0f,-curveRadius,0f);
+        transform.SetParent(pipe.transform.parent);
+        transform.localScale = Vector3.one;
+    }
+
+    public float CurveRadius
+    {
+        get
+        {
+            return curveRadius;
+        }
+    }
+
+    public float CurveAngle
+    {
+        get
+        {
+            return curveAngle;
+        }
+    }
+
+
+
+
 }

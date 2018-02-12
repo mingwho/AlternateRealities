@@ -1,12 +1,16 @@
-﻿<Properties StartupItem="Assembly-CSharp.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/generator.cs">
+﻿<Properties StartupConfiguration="{192817A0-BD72-1172-70B0-8F501DE8C865}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/rayCasting.cs">
     <Files>
-      <File FileName="Assets/generator.cs" Line="6" Column="26" />
+      <File FileName="Assets/Scripts/generator.cs" Line="48" Column="72" />
+      <File FileName="Assets/Scripts/cubeColor.cs" Line="17" Column="69" />
+      <File FileName="Assets/Scripts/rayCasting.cs" Line="25" Column="25" />
     </Files>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.hw1 PreferredExecutionTarget="Unity.Editor" />
+  <MultiItemStartupConfigurations />
 </Properties>
