@@ -5,26 +5,26 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
     public PipeSystem pipeSystem;
+
     public float velocity;
+
     private Pipe currentPipe;
 
     private float distanceTraveled;
-
     private float deltaToRotation;
     private float systemRotation;
-    private Transform world;
 
+    private Transform world;
     private float worldRotation;
 
-    // PRIVATE FLOAT DELTATOROTATION
-
+	// Use this for initialization
 	void Start () {
         world = pipeSystem.transform.parent;
         currentPipe = pipeSystem.SetupFirstPipe();
-        //deltaToRotation = 360f / (2f * Mathf.PI * currentPipe.CurveRadius);
+        deltaToRotation = 360f / (2f * Mathf.PI * currentPipe.CurveRadius);
         SetupCurrentPipe();
 	}
-
+	
 	// Update is called once per frame
 	void Update () {
         float delta = velocity * Time.deltaTime;
@@ -35,14 +35,12 @@ public class Player : MonoBehaviour {
         {
             delta = (systemRotation - currentPipe.CurveAngle) / deltaToRotation;
             currentPipe = pipeSystem.SetupNextPipe();
-            //deltaToRotation = 360f / (2f * Mathf.PI * currentPipe.CurveRadius);
             SetupCurrentPipe();
             systemRotation = delta * deltaToRotation;
         }
 
-        pipeSystem.transform.localRotation =
-            Quaternion.Euler(0f, 0f, systemRotation);
-    }
+        pipeSystem.transform.localRotation = Quaternion.Euler(0f, 0f, systemRotation);
+	}
 
     private void SetupCurrentPipe()
     {

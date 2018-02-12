@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PipeSystem : MonoBehaviour
-{
+public class PipeSystem : MonoBehaviour {
 
     public Pipe pipePrefab;
 
@@ -19,15 +18,15 @@ public class PipeSystem : MonoBehaviour
             Pipe pipe = pipes[i] = Instantiate<Pipe>(pipePrefab);
             pipe.transform.SetParent(transform, false);
             pipe.Generate();
-            // each pipe aligns with its previous pipe
             if (i > 0)
             {
                 pipe.AlignWith(pipes[i - 1]);
             }
         }
-    }
 
-    public Pipe SetupFirstPipe(){
+    }
+    public Pipe SetupFirstPipe()
+    {
         transform.localPosition = new Vector3(0f, -pipes[0].CurveRadius);
         return pipes[0];
     }
@@ -68,14 +67,4 @@ public class PipeSystem : MonoBehaviour
             pipes[i].transform.SetParent(transform);
         }
     }
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
