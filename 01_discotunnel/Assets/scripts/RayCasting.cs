@@ -15,14 +15,21 @@ public class RayCasting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RaycastHit hit; // raycasthit: a struct that stores the info
-        Ray aRay = cam.ScreenPointToRay(Input.mousePosition);//casting from camera through mouse till infinity
+        RaycastHit hit;
+        Ray aRay = cam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(aRay, out hit))
         {
-            if (hit.transform.name.Contains("Sphere")){
-                Debug.Log("HELLO WORLD");
+            if (hit.transform.name.Contains("Star")){
+                hit.transform.GetComponent<MeshRenderer>().material.color = new Color(1, 1, 1);
+                hit.transform.parent.GetComponentInParent<Star>().Fade();
+                if (!hit.transform.GetComponent<AudioSource>().isPlaying)
+                {
+                    hit.transform.GetComponent<AudioSource>().pitch=Random.Range(0f,1f);
+                    hit.transform.GetComponent<AudioSource>().Play();
+                }
             }
 
         }
     }
+
 }

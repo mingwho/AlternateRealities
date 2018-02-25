@@ -18,4 +18,14 @@ public class Star : MonoBehaviour {
         rotater.localPosition = new Vector3(0f, pipe.CurveRadius);
         rotater.localRotation = Quaternion.Euler(ringRotation, 0f, 0f);
     }
+
+    public void Fade() {
+        StartCoroutine(Fader());
+    }
+
+    IEnumerator Fader() {
+        yield return new WaitForSeconds(2f);
+
+        transform.GetComponentInChildren<MeshRenderer>().material.color = new Color(0,0,0);
+    }
 }

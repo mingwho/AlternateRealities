@@ -17,6 +17,9 @@ public class Pipe : MonoBehaviour {
 
     private float curveAngle;
 
+    public StarGenerator[] generators;
+
+    // Generate points on Torus
     private Vector3 GetPointOnTorus(float u, float v)
     {
         Vector3 p;
@@ -39,6 +42,7 @@ public class Pipe : MonoBehaviour {
         mesh.name = "Pipe";
     }
 
+    // Create the vertices and triangles of each pipe 
     public void Generate()
     {
         curveRadius = Random.Range(minCurveRadius, maxCurveRadius);
@@ -49,8 +53,17 @@ public class Pipe : MonoBehaviour {
         SetUV();
         SetTriangles();
         mesh.RecalculateNormals();
+        //GetComponent<RandomPlacer>().GenerateItems(this);
+
+        //for (int i = 0; i < transform.childCount; i++)
+        //{
+        //    Destroy(transform.GetChild(i).gameObject);
+        //}
+        generators[Random.Range(0, generators.Length)].GenerateItems(this);
+
     }
 
+    // set uv coordinates for texture to show up
     private void SetUV()
     {
         uv = new Vector2[vertices.Length];
@@ -74,6 +87,7 @@ public class Pipe : MonoBehaviour {
         }
     }
 
+    // set vertices of each quad ring
     private void SetVertices() {
         vertices = new Vector3[pipeSegmentCount * curveSegmentCount * 4];
 
@@ -90,6 +104,7 @@ public class Pipe : MonoBehaviour {
         mesh.vertices = vertices;
     }
 
+    // set the triangles : each quad has two triangles which have 6 vertices
     private void SetTriangles() {
         triangles = new int[pipeSegmentCount * curveSegmentCount * 6];
         for (int t = 0, i = 0; t < triangles.Length; t += 6, i += 4)
@@ -132,11 +147,13 @@ public class Pipe : MonoBehaviour {
     }
     public void AlignWith(Pipe pipe)
     {
+        // give pipe random relative position also restrict them so that they fit according to pipesegment
         relativeRotation = Random.Range(0, curveSegmentCount) * 360f / pipeSegmentCount;
 
         transform.SetParent(pipe.transform, false);
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.Euler(0f, 0f, -pipe.curveAngle);
+        //move up so the origin sits at the end point of parent's pipe
         transform.Translate(0f, pipe.curveRadius, 0f);
         transform.Rotate(relativeRotation, 0f, 0f);
         transform.Translate(0f, -curveRadius, 0f);
@@ -159,4 +176,13 @@ public class Pipe : MonoBehaviour {
             return curveAngle;
         }
     }
+    public int CurveSegmentCount
+    {
+        get
+        {
+            return curveSegmentCount;
+        }
+    }
+
+
 }

@@ -44,6 +44,7 @@ public class PipeSystem : MonoBehaviour {
 
     private void ShiftPipes()
     {
+        // the current first pipe becomes the last pipe!
         Pipe temp = pipes[0];
         for (int i = 1; i < pipes.Length; i++)
         {
