@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaeb21921d304cb419e4ab647163f734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  book: {fileID: 1150847322603922, guid: fa773554a29184948b6c128bb594a791, type: 2}
+  book: {fileID: 1179243900429032, guid: 4d5af5a7ba3f49b4ab102c05864a9696, type: 2}
   numberOfShelves: 4
   numberOfBooksPerShelf: 20
   bookSpacing: 0.125
