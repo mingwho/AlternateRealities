@@ -437,6 +437,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 155a968a9b06ae1418766b14b4f779fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bookCover: {fileID: 114462211035718614}
+  bookSpine: {fileID: 114404784242445820}
 --- !u!114 &114886879055732674
 MonoBehaviour:
   m_ObjectHideFlags: 1
